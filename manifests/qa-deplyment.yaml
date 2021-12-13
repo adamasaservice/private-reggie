@@ -1,0 +1,80 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-reggie
+  namespace: private-terraform-registry
+spec:
+  selector:
+    matchLabels:
+      app: private-reggie
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: private-reggie
+    spec:
+      containers:
+        - name: private-reggie
+          image: 'docker.ncr.devops.nednet.co.za/nedvana-ops/private-reggie:latest'
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            name: http
+          # readinessProbe: # will mark the pod as ready once the initialization script is completed and will probe every 5 seconds
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          resources: {} 
+          volumeMounts:
+            - mountPath: /app/config.json
+              subPath: config.json
+              name: private-reggie-config-json
+      restartPolicy: Always
+      volumes:
+        - name: private-reggie-config-json
+          configMap:
+            name: private-reggie-config-json
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: private-reggie
+  name: private-reggie
+  namespace: private-terraform-registry
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: private-reggie
+  selector:
+    app: private-reggie
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: private-reggie
+  namespace: private-terraform-registry
+spec:
+  tls:
+  - hosts:
+    - qa-tf-providers.devops.nednet.co.za
+    secretName: tf-providers.devops.nednet.co.za
+  rules:
+  - host: "qa-tf-providers.devops.nednet.co.za"
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: private-reggie
+            port:
+              number: 8080

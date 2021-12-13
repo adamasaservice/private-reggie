@@ -1,0 +1,66 @@
+# configmaps.yaml
+# kubectl create configmap terustry-yml --from-file=terustry.yml --dry-run -o yaml
+
+apiVersion: v1
+data:
+  config.json: |
+    [{
+      "name": "hashicorp/hashicups",
+      "versions": ["0.0.1", "0.3.2"],
+      "protocols": ["4.0", "5.1"],
+      "platforms": [{
+          "os": "linux",
+          "arch": "amd64"
+        },
+        {
+          "os": "darwin",
+          "arch": "amd64"
+        }
+      ],
+      "filename": "tterraform-provider-hashicups_{{version}}_{{os}}_{{arch}}.zip",
+      "download_url": "https://releases.hashicorp.com/terraform-provider-random/{{version}}/terraform-provider-hashicups_{{version}}_{{os}}_{{arch}}.zip",
+      "shasums_url": "https://releases.hashicorp.com/terraform-provider-random/{{version}}/terraform-provider-random_{{version}}_SHA256SUMS",
+      "shasums_signature_url": "https://releases.hashicorp.com/terraform-provider-random/{{version}}/terraform-provider-random_{{version}}_SHA256SUMS.sig",
+      "signing_keys": {
+        "gpg_public_keys": [{
+          "key_id": "51852D87348FFC4C",
+          "ascii_armor": "-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: GnuPG v1\n\nmQENBFMORM0BCADBRyKO1MhCirazOSVwcfTr1xUxjPvfxD3hjUwHtjsOy/bT6p9f\nW2mRPfwnq2JB5As+paL3UGDsSRDnK9KAxQb0NNF4+eVhr/EJ18s3wwXXDMjpIifq\nfIm2WyH3G+aRLTLPIpscUNKDyxFOUbsmgXAmJ46Re1fn8uKxKRHbfa39aeuEYWFA\n3drdL1WoUngvED7f+RnKBK2G6ZEpO+LDovQk19xGjiMTtPJrjMjZJ3QXqPvx5wca\nKSZLr4lMTuoTI/ZXyZy5bD4tShiZz6KcyX27cD70q2iRcEZ0poLKHyEIDAi3TM5k\nSwbbWBFd5RNPOR0qzrb/0p9ksKK48IIfH2FvABEBAAG0K0hhc2hpQ29ycCBTZWN1\ncml0eSA8c2VjdXJpdHlAaGFzaGljb3JwLmNvbT6JATgEEwECACIFAlMORM0CGwMG\nCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEFGFLYc0j/xMyWIIAIPhcVqiQ59n\nJc07gjUX0SWBJAxEG1lKxfzS4Xp+57h2xxTpdotGQ1fZwsihaIqow337YHQI3q0i\nSqV534Ms+j/tU7X8sq11xFJIeEVG8PASRCwmryUwghFKPlHETQ8jJ+Y8+1asRydi\npsP3B/5Mjhqv/uOK+Vy3zAyIpyDOMtIpOVfjSpCplVRdtSTFWBu9Em7j5I2HMn1w\nsJZnJgXKpybpibGiiTtmnFLOwibmprSu04rsnP4ncdC2XRD4wIjoyA+4PKgX3sCO\nklEzKryWYBmLkJOMDdo52LttP3279s7XrkLEE7ia0fXa2c12EQ0f0DQ1tGUvyVEW\nWmJVccm5bq25AQ0EUw5EzQEIANaPUY04/g7AmYkOMjaCZ6iTp9hB5Rsj/4ee/ln9\nwArzRO9+3eejLWh53FoN1rO+su7tiXJA5YAzVy6tuolrqjM8DBztPxdLBbEi4V+j\n2tK0dATdBQBHEh3OJApO2UBtcjaZBT31zrG9K55D+CrcgIVEHAKY8Cb4kLBkb5wM\nskn+DrASKU0BNIV1qRsxfiUdQHZfSqtp004nrql1lbFMLFEuiY8FZrkkQ9qduixo\nmTT6f34/oiY+Jam3zCK7RDN/OjuWheIPGj/Qbx9JuNiwgX6yRj7OE1tjUx6d8g9y\n0H1fmLJbb3WZZbuuGFnK6qrE3bGeY8+AWaJAZ37wpWh1p0cAEQEAAYkBHwQYAQIA\nCQUCUw5EzQIbDAAKCRBRhS2HNI/8TJntCAClU7TOO/X053eKF1jqNW4A1qpxctVc\nz8eTcY8Om5O4f6a/rfxfNFKn9Qyja/OG1xWNobETy7MiMXYjaa8uUx5iFy6kMVaP\n0BXJ59NLZjMARGw6lVTYDTIvzqqqwLxgliSDfSnqUhubGwvykANPO+93BBx89MRG\nunNoYGXtPlhNFrAsB1VR8+EyKLv2HQtGCPSFBhrjuzH3gxGibNDDdFQLxxuJWepJ\nEK1UbTS4ms0NgZ2Uknqn1WRU1Ki7rE4sTy68iZtWpKQXZEJa0IGnuI2sSINGcXCJ\noEIgXTMyCILo34Fa/C6VCm2WBgz9zZO8/rHIiQm1J5zqz0DrDwKBUM9C\n=LYpS\n-----END PGP PUBLIC KEY BLOCK-----",
+          "trust_signature": "",
+          "source": "HashiCorp",
+          "source_url": "https://www.hashicorp.com/security.html"
+        }]
+      }
+    },
+    {
+      "name": "example/hashicups",
+      "versions": ["0.0.1", "0.3.2", "0.3.3"],
+      "protocols": ["4.0", "5.1"],
+      "platforms": [{
+          "os": "linux",
+          "arch": "amd64"
+        },
+        {
+          "os": "darwin",
+          "arch": "amd64"
+        }
+      ],
+      "filename": "terraform-provider-hashicups_{{version}}_{{os}}_{{arch}}.zip",
+      "download_url": "https://nexus.example.com/repository/raw-hosted/terraform-providers/terraform-provider-hashicups_{{version}}_{{os}}_{{arch}}.zip",
+      "shasums_url": "https://nexus.example.com/repository/raw-hosted/terraform-providers/terraform-provider-hashicups_{{version}}_SHA256SUMS",
+      "shasums_signature_url": "https://nexus.example.com/repository/raw-hosted/terraform-providers/terraform-provider-hashicups_{{version}}_SHA256SUMS.sig",
+      "signing_keys": {
+        "gpg_public_keys": [{
+          "key_id": "8CB03844ED1FDCF2",
+          "ascii_armor": "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n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\ngOMV+ZtDHgcBeCU=\n=447o\n-----END PGP PUBLIC KEY BLOCK-----",
+          "trust_signature": "",
+          "source": "example",
+          "source_url": "https://dev.azure.com"
+          }]
+        }
+      }
+    ]
+
+kind: ConfigMap
+metadata:
+  name: private-reggie-config-json
+  namespace: private-terraform-registry

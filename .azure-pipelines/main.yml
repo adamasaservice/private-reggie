@@ -1,0 +1,72 @@
+## main.yml
+
+name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+    - main
+
+variables:
+  registry: example.com
+  container_name: example/private-reggie
+
+stages:
+  - stage: BUILD
+    jobs:
+    - job: Build_Image
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - task: GoTool@0
+        displayName: 'Use Go 1.17'
+        inputs:
+          version: 1.17
+
+      - task: CmdLine@2
+        displayName: 'BUILD GO BINARY'
+        inputs:
+          script: |
+            echo BUILD GO BINARY
+            CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags  "-extldflags '-static' -X main.GitCommit=$(Build.SourceVersion)" -o main .
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+
+
+      - task: Docker@2
+        inputs:
+          containerRegistry: '$(registry)'
+          repository: '$(container_name)'
+          command: 'build'
+          Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+          tags: |
+            $(Build.BuildNumber)
+            latest     
+
+      - task: CmdLine@2
+        displayName: 'Save ss tar'
+        inputs:
+          script: |
+            echo SAVE DOCKER IMAGE AS TAR -- $(registry)/$(container_name):$(Build.BuildNumber)
+            docker save $(registry)/$(container_name):$(Build.BuildNumber) -o out.tar
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish artefact'
+        inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/out.tar'
+          ArtifactName: drop
+        condition: succeededOrFailed()
+
+      - task: Docker@2
+        displayName: 'docker push'
+        inputs:
+          containerRegistry: '$(registry)'
+          repository: '$(container_name)'
+          command: 'push'
+          tags: |
+            $(Build.BuildNumber)
+            latest
+
+
+
