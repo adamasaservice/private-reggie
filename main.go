@@ -11,7 +11,6 @@ import (
 )
 
 var (
-	Version    string
 	GitCommit  string
 	GitTag     string
 	port       string
@@ -38,7 +37,6 @@ func init() {
 func main() {
 
 	log.Println("Starting")
-	log.Println("Version:", Version)
 	log.Println("GitCommit:", GitCommit)
 	log.Println("GitTag:", GitTag)
 
