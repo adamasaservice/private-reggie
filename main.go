@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,8 +13,8 @@ import (
 var (
 	Version    string
 	GitCommit  string
+	GitTag     string
 	port       string
-	configFile string
 	ConfigData Config
 )
 
@@ -41,6 +40,7 @@ func main() {
 	log.Println("Starting")
 	log.Println("Version:", Version)
 	log.Println("GitCommit:", GitCommit)
+	log.Println("GitTag:", GitTag)
 
 	app := fiber.New()
 
