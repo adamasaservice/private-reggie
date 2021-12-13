@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: private-reggie
-          image: 'docker.ncr.devops.nednet.co.za/nedvana-ops/private-reggie:latest'
+          image: 'example/private-reggie:latest'
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
@@ -65,10 +65,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - qa-tf-providers.devops.nednet.co.za
-    secretName: tf-providers.devops.nednet.co.za
+    - 'example.com'
+    secretName: example.com
   rules:
-  - host: "qa-tf-providers.devops.nednet.co.za"
+  - host: "example.com"
     http:
       paths:
       - pathType: Prefix
